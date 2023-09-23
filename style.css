@@ -13,6 +13,7 @@ header > h2 {
   color: white;
   padding: 20px;
   font-weight: 300;
+  margin-bottom: 0px;
 }
 
 main {
@@ -38,9 +39,9 @@ section {
   padding-left: 10px;
 }
 
-/* li {
-  padding: 100px;
-} */
+.custom-button {
+  width: 15%;
+}
 
 .custom-col > thead > tr > th,
 .custom-col > tbody > tr > td {

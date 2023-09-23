@@ -1237,6 +1237,29 @@ const tbody = document.getElementById("tbody");
 
 const buttons = document.querySelectorAll("#buttons > ol > li");
 
+const searchInput = document.getElementById("searchInput");
+
+const searchButton = searchInput.nextElementSibling;
+
+//search Functionality
+function search(event) {
+  event.preventDefault();
+
+  const serachValue = searchInput.value.toLowerCase();
+
+  const getData = data.filter(
+    (student) =>
+      student.first_name.toLowerCase().includes(serachValue) ||
+      student.last_name.toLowerCase().includes(serachValue) ||
+      student.email.toLowerCase().includes(serachValue) ||
+      `${student.first_name.toLowerCase()} ${student.last_name.toLowerCase()}`.includes(
+        serachValue
+      )
+  );
+
+  runThis(getData);
+}
+
 //creating tr and appending for tbody. except gender
 function runThis(data) {
   trElement = tbody.querySelectorAll("tr");
@@ -1337,6 +1360,12 @@ function createTr(objData) {
 for (let i = 0; i < buttons.length; i++) {
   buttons[i].addEventListener("click", createFunctionality);
 }
+
+//search eventListener
+searchInput.addEventListener("input", search);
+
+//handling if enter which is not nessary
+searchButton.addEventListener("click", search);
 
 //will execute the function once
 document.addEventListener("DOMContentLoaded", runThis(data));
