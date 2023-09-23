@@ -1237,26 +1237,25 @@ const tbody = document.getElementById("tbody");
 
 const buttons = document.querySelectorAll("#buttons > ol > li");
 
+//creating tr and appending for tbody. except gender
 function runThis(data) {
   trElement = tbody.querySelectorAll("tr");
-  // console.log(trElement, "mayur");
 
   trElement.forEach((element) => {
     tbody.removeChild(element);
   });
-  // tbody.removeChild("tr");
 
   for (let i = 0; i < data.length; i++) {
     let createRow = createTr(data[i]);
 
-    tbody.appendChild(createRow);
+    tbody.append(createRow);
   }
 }
 
+//handling all buttons click
 function createFunctionality(event) {
   console.log(event.target.innerText);
-  // console.log(event.target.innerText);
-  // console.log(event.target.innerText === "Sort A-Z");
+
   if (event.target.innerText === "Sort A-Z") {
     data.sort((a, b) => {
       const fullNameA = `${a.first_name} ${a.last_name}`;
@@ -1264,7 +1263,6 @@ function createFunctionality(event) {
       return fullNameA.localeCompare(fullNameB);
     });
     runThis(data);
-    // console.log(data);
   } else if (event.target.innerText === "Sort Z-A") {
     data.sort((a, b) => {
       const fullNameA = `${a.first_name} ${a.last_name}`;
@@ -1285,25 +1283,45 @@ function createFunctionality(event) {
   } else if (event.target.innerText === "Sort By Passing") {
     const newArr = [];
     for (let i = 0; i < data.length; i++) {
-      console.log(data.passing);
       if (data[i].passing === true) {
-        // console.log(data[i]);
         newArr.push(data[i]);
       }
     }
-    // console.log(data, newArr);
     runThis(newArr);
+  } else if (event.target.innerText === "Sort By Gender") {
+    //creating seperate for buttons
+    const newArr = data.filter(
+      (student) => student.gender.toLowerCase() === "male"
+    );
+    const newArr2 = data.filter(
+      (student) => student.gender.toLowerCase() === "female"
+    );
+
+    runThis([]);
+
+    for (let i = 0; i < newArr.length; i++) {
+      let createRow = createTr(newArr[i]);
+
+      tbody.appendChild(createRow);
+    }
+
+    for (let i = 0; i < newArr2.length; i++) {
+      let createRow = createTr(newArr2[i]);
+
+      tbody.appendChild(createRow);
+    }
   }
 }
 
+//creating actual tr element
 function createTr(objData) {
   let tr = document.createElement("tr");
   tr.innerHTML = `<td scope="row" class="col-row-color row-data text-center">${
     objData.id
   }</td>
-  <td scope="row" class="col-row-color row-data">${objData.first_name} ${
-    objData.last_name
-  }</td>
+  <td scope="row" class="col-row-color row-data"><img src="${
+    objData.img_src
+  } alt="studentImage"">${objData.first_name} ${objData.last_name}</td>
   <td scope="row" class="col-row-color row-data">${objData.gender}</td>
   <td scope="row" class="col-row-color row-data">${objData.class}</td>
   <td scope="row" class="col-row-color row-data">${objData.marks}</td>
@@ -1315,8 +1333,10 @@ function createTr(objData) {
   return tr;
 }
 
+//assiging every button a click listener with event
 for (let i = 0; i < buttons.length; i++) {
   buttons[i].addEventListener("click", createFunctionality);
 }
 
-document.addEventListener("DOMContentLoaded", runThis);
+//will execute the function once
+document.addEventListener("DOMContentLoaded", runThis(data));

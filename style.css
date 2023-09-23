@@ -38,10 +38,8 @@ section {
   padding-left: 10px;
 }
 
-/* .custom-table {
-  background-color: #d9d9d9;
-  border-width: 10px;
-  border-color: black;
+/* li {
+  padding: 100px;
 } */
 
 .custom-col > thead > tr > th,
