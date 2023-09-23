@@ -1233,22 +1233,90 @@ const data = [
     city: "Makin Village",
   },
 ];
+const tbody = document.getElementById("tbody");
 
-for (let i = 0; i < data.length; i++) {
-  let createRow = createTr(data[i]);
-  const tbody = document.getElementById("tbody");
-  tbody.appendChild(createRow);
+const buttons = document.querySelectorAll("#buttons > ol > li");
+
+function runThis(data) {
+  trElement = tbody.querySelectorAll("tr");
+  // console.log(trElement, "mayur");
+
+  trElement.forEach((element) => {
+    tbody.removeChild(element);
+  });
+  // tbody.removeChild("tr");
+
+  for (let i = 0; i < data.length; i++) {
+    let createRow = createTr(data[i]);
+
+    tbody.appendChild(createRow);
+  }
+}
+
+function createFunctionality(event) {
+  console.log(event.target.innerText);
+  // console.log(event.target.innerText);
+  // console.log(event.target.innerText === "Sort A-Z");
+  if (event.target.innerText === "Sort A-Z") {
+    data.sort((a, b) => {
+      const fullNameA = `${a.first_name} ${a.last_name}`;
+      const fullNameB = `${b.first_name} ${b.last_name}`;
+      return fullNameA.localeCompare(fullNameB);
+    });
+    runThis(data);
+    // console.log(data);
+  } else if (event.target.innerText === "Sort Z-A") {
+    data.sort((a, b) => {
+      const fullNameA = `${a.first_name} ${a.last_name}`;
+      const fullNameB = `${b.first_name} ${b.last_name}`;
+      return fullNameB.localeCompare(fullNameA);
+    });
+    runThis(data);
+  } else if (event.target.innerText === "Sort By Marks") {
+    data.sort((a, b) => {
+      return a.marks - b.marks;
+    });
+    runThis(data);
+  } else if (event.target.innerText === "Sort By Class") {
+    data.sort((a, b) => {
+      return a.class - b.class;
+    });
+    runThis(data);
+  } else if (event.target.innerText === "Sort By Passing") {
+    const newArr = [];
+    for (let i = 0; i < data.length; i++) {
+      console.log(data.passing);
+      if (data[i].passing === true) {
+        // console.log(data[i]);
+        newArr.push(data[i]);
+      }
+    }
+    // console.log(data, newArr);
+    runThis(newArr);
+  }
 }
 
 function createTr(objData) {
   let tr = document.createElement("tr");
-  tr.innerHTML = `<td scope="row" class="col-row-color row-data">${objData.id}</td>
-  <td scope="row" class="col-row-color row-data">${objData.first_name} ${objData.last_name}</td>
+  tr.innerHTML = `<td scope="row" class="col-row-color row-data text-center">${
+    objData.id
+  }</td>
+  <td scope="row" class="col-row-color row-data">${objData.first_name} ${
+    objData.last_name
+  }</td>
   <td scope="row" class="col-row-color row-data">${objData.gender}</td>
   <td scope="row" class="col-row-color row-data">${objData.class}</td>
   <td scope="row" class="col-row-color row-data">${objData.marks}</td>
-  <td scope="row" class="col-row-color row-data">${objData.passing}</td>
+  <td scope="row" class="col-row-color row-data">${
+    objData.passing === true ? "Passed" : "Failed"
+  }</td>
   <td scope="row" class="col-row-color row-data">${objData.email}</td>`;
 
   return tr;
 }
+
+for (let i = 0; i < buttons.length; i++) {
+  buttons[i].addEventListener("click", createFunctionality);
+}
+
+document.addEventListener("DOMContentLoaded", runThis);
